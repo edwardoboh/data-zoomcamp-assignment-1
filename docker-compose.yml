@@ -1,0 +1,30 @@
+version: "3"
+name: ny-taxi-data
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=ny-taxi-db
+    ports:
+      - 5432:5432
+    volumes:
+      - $PWD/ny-taxi-database:/var/lib/postgresql/data
+    networks:
+      - ny-taxi
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8080:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
+    networks:
+      - ny-taxi
+
+networks:
+  ny-taxi:
